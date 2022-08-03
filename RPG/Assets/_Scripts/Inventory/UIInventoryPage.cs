@@ -51,6 +51,7 @@ public class UIInventoryPage : MonoBehaviour
     private void HandleItemSelection(UIInventoryItem obj)
     {
         Debug.Log(obj.name);
+        listOFUIItems[0].Select();
     }
 
     public void Show()
