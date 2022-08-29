@@ -31,6 +31,10 @@ public class MouseFollower : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, Input.mousePosition, canvas.worldCamera, out position);
         transform.position = canvas.transform.TransformPoint(position);
     }
+    public void Toggle(bool val)
+    {
+        Debug.Log($"Item toggled {val}");
+    }
 }
 
 
