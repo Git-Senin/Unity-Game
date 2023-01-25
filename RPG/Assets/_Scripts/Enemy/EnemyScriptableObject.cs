@@ -6,7 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/Enemy")]
 public class EnemyData : ScriptableObject
 {
-    public Sprite sprite;
     public string enemyName;
     public string description;
 

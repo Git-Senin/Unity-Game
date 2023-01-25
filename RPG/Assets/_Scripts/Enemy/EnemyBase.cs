@@ -8,9 +8,7 @@ public class EnemyBase : MonoBehaviour
     public EnemyData enemyData;
 
     private Transform target;
-    private SpriteRenderer spriteRenderer;
 
-    [SerializeField] protected Sprite sprite;
     [SerializeField] protected string enemyName;
     [SerializeField] protected string description;
     [SerializeField] protected float maxHealth;
@@ -25,13 +23,11 @@ public class EnemyBase : MonoBehaviour
     protected virtual void Awake()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     protected virtual void Start()
     {
         GetData();
-        spriteRenderer.sprite = sprite;
     }
 
     protected virtual void Update()
@@ -56,7 +52,6 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void GetData()
     {
-        sprite = enemyData.sprite;
         enemyName = enemyData.enemyName;
         description = enemyData.description;
 
