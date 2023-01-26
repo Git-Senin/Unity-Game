@@ -32,9 +32,7 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        
         Move();
-
     }
 
     public virtual void OnCollisionEnter2D(Collision2D collision)
@@ -60,6 +58,8 @@ public class EnemyBase : MonoBehaviour
 
         speed = enemyData.speed;
         damage = enemyData.damage;
+
+        distance = enemyData.distance;
     }
     public virtual void TakeDamage(float _damage)
     {
@@ -87,7 +87,6 @@ public class EnemyBase : MonoBehaviour
 
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }
-        
     }
     protected virtual void Flip()
     {
