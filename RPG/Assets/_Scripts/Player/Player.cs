@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        //  Calculate Max Health/Mana
+        // Calculate Max Health/Mana
         maxMana = maxManaData.value;
         maxHealth = maxHealthData.value;
     }
