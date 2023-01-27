@@ -9,7 +9,6 @@ public class NPC : MonoBehaviour
     private string Name;
     private Sprite sprite;
     private Indicator indicator;
-
     private bool interactable = false;
 
     private void Awake()
@@ -27,7 +26,7 @@ public class NPC : MonoBehaviour
     {
         if (interactable && Input.GetKeyDown(KeyCode.F))
         {
-            // Bring up dialogue box
+            Debug.Log("Interacted");
         }
     }
 

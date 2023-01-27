@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static Player instance;
 
-    [SerializeField] private Camera cam;
-    [SerializeField] private Rigidbody2D rb;
-    
+    private static Player _instance;
+    public static Player instance { get { return _instance; } }
     [SerializeField] private FloatVariable maxHealthData;
     [SerializeField] private FloatVariable maxManaData;
     [SerializeField] private FloatVariable expData;
@@ -21,7 +19,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        _instance = this;
         maxHealthData.value = 100;
         maxManaData.value = 10;
     }
@@ -39,7 +37,6 @@ public class Player : MonoBehaviour
         {
             RegenerateMana();
         }
-        cam.ScreenToWorldPoint(Input.mousePosition);
     }
 
     public void gainHealth(float _health)
