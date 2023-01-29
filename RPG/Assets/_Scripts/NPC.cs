@@ -1,24 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Ink.Runtime;
+using TMPro;
 public class NPC : MonoBehaviour
 {
+    [Header("NPC DATA")]
     [SerializeField] private NPCData data;
 
     private string Name;
     private Sprite sprite;
+    private DialogueBox dialogueBox;
+
     private Indicator indicator;
     private bool interactable = false;
+    private bool playingDialogue = false;
 
     private void Awake()
     {
+        GetData();
         indicator = transform.Find("Indicator").GetComponent<Indicator>();
     }
 
     private void Start()
     {
-        GetData();
+        dialogueBox = UIManager.instance.DialogueBox;
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
@@ -26,7 +32,7 @@ public class NPC : MonoBehaviour
     {
         if (interactable && Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("Interacted");
+            dialogueBox.StartInteraction(data);
         }
     }
 
@@ -49,6 +55,7 @@ public class NPC : MonoBehaviour
             interactable = false;
         }
     }
+
 
     private void GetData()
     {

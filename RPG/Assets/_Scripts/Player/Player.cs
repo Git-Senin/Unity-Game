@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
-    private static Player _instance;
-    public static Player instance { get { return _instance; } }
+    public static Player instance { get; private set; }
     [SerializeField] private FloatVariable maxHealthData;
     [SerializeField] private FloatVariable maxManaData;
     [SerializeField] private FloatVariable expData;
@@ -19,7 +17,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        instance = this;
+
         maxHealthData.value = 100;
         maxManaData.value = 10;
     }

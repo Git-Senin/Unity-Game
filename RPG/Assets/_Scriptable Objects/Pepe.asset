@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f85e48d4339df468b59dba3debc316, type: 3}
   m_Name: Pepe
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 9bc955224fb046142aed387104219bb8, type: 3}
   Name: Pepe
+  sprite: {fileID: 21300000, guid: 9bc955224fb046142aed387104219bb8, type: 3}
+  inkJSON: {fileID: 4900000, guid: 7cc746976f27a624ab9c90d547562ca3, type: 3}
+  options:
+  - Talk
+  - Repair
+  - Quest

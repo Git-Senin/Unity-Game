@@ -5,6 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/NPC")]
 public class NPCData : ScriptableObject
 {
-    public Sprite sprite;
     public string Name;
+    public Sprite sprite;
+    [Header("Dialogue")]
+    public TextAsset inkJSON;
+
+    // Add npc function options
+    public List<string> options;
 }
