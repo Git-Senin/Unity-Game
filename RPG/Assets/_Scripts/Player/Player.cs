@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private FloatVariable damageData;
 
     public bool dead = false;
+    public bool interacting = false;
+
     private float maxMana;
     private float manaRegenMultiplier = 1f;
     private float maxHealth;
@@ -23,7 +25,6 @@ public class Player : MonoBehaviour
             return;
         }
         instance = this;
-
         maxHealthData.value = 100;
         maxManaData.value = 10;
     }

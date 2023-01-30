@@ -12,4 +12,5 @@ public class NPCData : ScriptableObject
 
     // Add npc function options
     public List<string> options;
+    public Dictionary<string, bool> optionsDict;
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
 using TMPro;
+using System.Runtime.InteropServices.WindowsRuntime;
+
 public class NPC : MonoBehaviour
 {
     [Header("NPC DATA")]
@@ -19,6 +21,8 @@ public class NPC : MonoBehaviour
     private void Awake()
     {
         GetData();
+        gameObject.name = Name;
+
         indicator = transform.Find("Indicator").GetComponent<Indicator>();
     }
 
@@ -30,9 +34,16 @@ public class NPC : MonoBehaviour
 
     private void Update()
     {
+        
+        // In range and Interract
         if (interactable && Input.GetKeyDown(KeyCode.F))
         {
+            // Player Busy
+            if (Player.instance.interacting) return;
+            
+            // Interact
             dialogueBox.StartInteraction(data);
+            Player.instance.interacting = true;
         }
     }
 

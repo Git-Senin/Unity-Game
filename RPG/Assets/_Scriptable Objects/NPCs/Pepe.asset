@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Pepe
   sprite: {fileID: 21300000, guid: 9bc955224fb046142aed387104219bb8, type: 3}
-  inkJSON: {fileID: 4900000, guid: 7cc746976f27a624ab9c90d547562ca3, type: 3}
+  inkJSON: {fileID: 4900000, guid: a786bb70132bbf440b7d5ace187a2bce, type: 3}
   options:
   - Talk
   - Repair
+  - Shop
   - Quest

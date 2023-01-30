@@ -10,23 +10,31 @@ public class InGameMenu : MonoBehaviour
     [SerializeField] private GameObject player;
     void Update()
     {
+        // On Esc
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // Close Other UI
+            if (Player.instance.interacting) 
+            {
+                CloseUI();
+                return;
+            }
+
+            // Open Menu
             if (DisplayMenu)
-            {
                 Resume();
-            }
             else
-            {
                 Pause();
-            }
         }
     }
 
     public void Resume()
     {
+        // Enable Player
         player?.SetActive(true);
         menuInterface.SetActive(false);
+
+        // Resume Time
         Time.timeScale = 1f;
         DisplayMenu = false;
     }
@@ -35,11 +43,11 @@ public class InGameMenu : MonoBehaviour
     {
         // Disables Player
         player?.SetActive(false);
-        
+
         // Disables all menus
         foreach (Transform child in menuInterface.transform)
             child.gameObject.SetActive(false);
-        
+
         // Opens interface and main ingame menu
         menuInterface.SetActive(true);
         menuInterface.transform.Find("InGameMenu").gameObject.SetActive(true);
@@ -54,5 +62,11 @@ public class InGameMenu : MonoBehaviour
         Time.timeScale = 1f;
         DisplayMenu = false;
         SceneManager.LoadScene("Menu");
+    }
+
+    private void CloseUI()
+    {
+        // Close Dialogue
+        UIManager.instance.DialogueBox.EndInteraction();
     }
 }

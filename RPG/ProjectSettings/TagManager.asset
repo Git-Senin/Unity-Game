@@ -52,17 +52,20 @@ TagManager:
   - name: Collectibles
     uniqueID: 3534211193
     locked: 0
-  - name: Enemy
-    uniqueID: 1466355459
+  - name: NPC
+    uniqueID: 2740533211
     locked: 0
   - name: Player
     uniqueID: 1782949157
     locked: 0
-  - name: NPC
-    uniqueID: 2740533211
+  - name: Enemy
+    uniqueID: 1466355459
     locked: 0
   - name: Weapon
     uniqueID: 4103826975
+    locked: 0
+  - name: Indicator
+    uniqueID: 315177991
     locked: 0
   - name: UI
     uniqueID: 1429105343

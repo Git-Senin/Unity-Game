@@ -33,31 +33,28 @@ public class PlayerMovement : MonoBehaviour
 
     void Update() 
     {
-        if (frozen) { return; }
-
+        if (frozen) return;
         horizontalMove = Input.GetAxisRaw("Horizontal");
         verticalMove = Input.GetAxisRaw("Vertical");
-
-        
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove) + Mathf.Abs(verticalMove));
     }
 
     void FixedUpdate () 
     {
-        if (frozen) { return; }
-
+        if (frozen) return;
         body.velocity = new Vector2(horizontalMove * moveSpeed, verticalMove * moveSpeed);
     }
 
     public void Flip()
     {
         faceRight = !faceRight;
-
         transform.Rotate(0f, 180f, 0f);
     }
 
     public void Freeze()
     {
+        body.velocity = Vector2.zero;
+        animator.SetFloat("Speed", 0);
         pivot.gameObject.SetActive(false);
         frozen = true;
     }
