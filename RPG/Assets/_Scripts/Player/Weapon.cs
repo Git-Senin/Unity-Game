@@ -1,32 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField]
-    private FloatVariable mana;
-
+    [SerializeField] private FloatVariable mana;
+    [SerializeField] private GameObject bulletPrefab;
     public Transform weaponObject;
-    public GameObject bulletPrefab;
+    private InputAction fire;
 
-    void Update()
+    private void Shoot() 
     {
-        // Primary
-        if (Input.GetButtonDown("Fire1") && mana.value > 0) {
+        if (mana.value > 0f)
+        {
+            Instantiate(bulletPrefab, transform.position, weaponObject.rotation);
             mana.value--;
-            Shoot();
-        }
-    }
-
-    void Shoot () 
-    {
-        Instantiate(bulletPrefab, transform.position, weaponObject.rotation);
+        }  
     }
 
     public void flipX()
     {
         transform.Rotate(180, 0, 0);
     }
+
+
 }
 

@@ -1,53 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.InputSystem;
 
 public class Pivot : MonoBehaviour
 {
     public Camera cam;
     public Weapon weapon;
     public PlayerMovement player;
-    private bool direction;
+    private InputAction look;
+    private bool faceRight = true;
     private float mouseAngle;
-    
-    void Start()
+
+    private void OnEnable()
     {
-        direction = true;
+        look = PlayerController.instance.look;
+        look.performed += FollowMousePosition;
+    }
+    private void OnDisable()
+    {
+        look.performed -= FollowMousePosition;
     }
 
-    void Update()
+    private void FollowMousePosition(InputAction.CallbackContext context)
     {
-        Vector3 mousePos = Input.mousePosition; //  Gets Mouse Pos Vector
+        Vector2 mouseScreenPosition = context.ReadValue<Vector2>();     // Get Mouse position on screen
+        Vector3 objectPos = cam.WorldToScreenPoint(transform.position); // Get Pivot position on screen
 
-        Vector3 objectPos = cam.WorldToScreenPoint(transform.position); // Gets Object Pos vector
+        mouseScreenPosition.x = mouseScreenPosition.x - objectPos.x;  //  Slope of X
+        mouseScreenPosition.y = mouseScreenPosition.y - objectPos.y;  //  Slope of Y
 
-        mousePos.x = mousePos.x - objectPos.x;  //  Slope of X
-        mousePos.y = mousePos.y - objectPos.y;  //  Slope of Y
+        mouseAngle = Mathf.Atan2(mouseScreenPosition.y, mouseScreenPosition.x) * Mathf.Rad2Deg;    // Angle Using Adjacent & Opposite for angle 
 
-        mouseAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;    // Angle Using Adjacent & Opposite for angle 
-
-        //  Debug.Log(mouseAngle);
+        //Debug.Log(mouseAngle);
 
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));   // Rotate Pivot
-
+        
         if (mouseAngle > 0f && mouseAngle < 90f || mouseAngle > -90 && mouseAngle < 0f)    // -90 -> 90
         {
-            if (!direction)         //If Left
+            if (!faceRight)         //If Left
             {
-                direction = true;   
+                faceRight = true;
                 weapon.flipX();         //  Flip Weapon X
                 player.Flip();
             }
         }
         else
         {
-            if (direction)          //if Right
+            if (faceRight)          //if Right
             {
-                direction = false;
+                faceRight = false;
                 weapon.flipX();
                 player.Flip();
             }
         }
     }
-
 }

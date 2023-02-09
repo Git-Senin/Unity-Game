@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ink;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance { get; private set; }
-
-    [SerializeField] GameObject pivot;
-
-    public Rigidbody2D body;
-    public Animator animator;
-    private float horizontalMove;
-    private float verticalMove;
-    private bool faceRight = true; 
+    [Header("Cache")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private Rigidbody2D body;
+    private Vector2 moveDirection = Vector2.zero; 
+    private bool faceRight = true;
+    [Header("Stats")]
     public float moveSpeed = 1f;
-
-    public bool frozen = false;
 
     private void Awake()
     {
@@ -33,16 +32,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update() 
     {
-        if (frozen) return;
-        horizontalMove = Input.GetAxisRaw("Horizontal");
-        verticalMove = Input.GetAxisRaw("Vertical");
-        animator.SetFloat("Speed", Mathf.Abs(horizontalMove) + Mathf.Abs(verticalMove));
+        moveDirection = PlayerController.instance.move.ReadValue<Vector2>();
+        animator.SetFloat("Speed", Mathf.Abs(moveDirection.x) + Mathf.Abs(moveDirection.y));
     }
 
     void FixedUpdate () 
     {
-        if (frozen) return;
-        body.velocity = new Vector2(horizontalMove * moveSpeed, verticalMove * moveSpeed);
+        body.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
     }
 
     public void Flip()
@@ -51,18 +47,6 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
-    public void Freeze()
-    {
-        body.velocity = Vector2.zero;
-        animator.SetFloat("Speed", 0);
-        pivot.gameObject.SetActive(false);
-        frozen = true;
-    }
 
-    public void Unfreeze()
-    {
-        pivot.gameObject.SetActive(true);
-        frozen = false;
-    }
 }
 

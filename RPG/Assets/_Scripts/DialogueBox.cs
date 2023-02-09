@@ -25,7 +25,6 @@ public class DialogueBox : MonoBehaviour
     }
     public void StartInteraction(NPCData data)
     {
-        PlayerMovement.instance.Freeze();
         UpdatePortrait(data.sprite);
         gameObject.SetActive(true);
 
@@ -55,7 +54,6 @@ public class DialogueBox : MonoBehaviour
     public void EndInteraction()
     {
         Player.instance.interacting = false;
-        PlayerMovement.instance.Unfreeze();
         gameObject.SetActive(false);
 
         // Destroy Buttons

@@ -13,7 +13,6 @@ public class NPC : MonoBehaviour
     private string Name;
     private Sprite sprite;
     private DialogueBox dialogueBox;
-
     private Indicator indicator;
     private bool interactable = false;
     private bool playingDialogue = false;
