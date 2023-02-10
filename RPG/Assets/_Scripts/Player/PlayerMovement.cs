@@ -8,11 +8,14 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance { get; private set; }
+
     [Header("Cache")]
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody2D body;
+
     private Vector2 moveDirection = Vector2.zero; 
     private bool faceRight = true;
+
     [Header("Stats")]
     public float moveSpeed = 1f;
 
@@ -29,13 +32,11 @@ public class PlayerMovement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
     }
-
     void Update() 
     {
         moveDirection = PlayerController.instance.move.ReadValue<Vector2>();
         animator.SetFloat("Speed", Mathf.Abs(moveDirection.x) + Mathf.Abs(moveDirection.y));
     }
-
     void FixedUpdate () 
     {
         body.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
@@ -46,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
         faceRight = !faceRight;
         transform.Rotate(0f, 180f, 0f);
     }
-
 
 }
 

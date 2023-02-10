@@ -4,6 +4,7 @@ using UnityEngine;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class DialogueBox : MonoBehaviour
 {
@@ -11,54 +12,45 @@ public class DialogueBox : MonoBehaviour
     [SerializeField] private Image portrait;
     [SerializeField] private GameObject buttonContainer;
     [SerializeField] private Button buttonPrefab;
-
+    
     private Button talk;
     private Story story;
-    private bool dialoguePlaying = false;
+    private PlayerInput playerInput;
     private string currentLine;
+    private bool dialoguePlaying = false;
 
     public float textSpeed = 0.1f;
 
-    private void Start()
+    private void OnEnable()
     {
+        // Reset Dialogue
         dialogueText.text = string.Empty;
+
+        // Set Player Controls to UI
+        // Disable Player Controller
+        playerInput = PlayerController.instance.playerInput;
+        playerInput.SwitchCurrentActionMap("UI");
+        PlayerController.instance.EnablePlayerController(false);
+        PlayerController.instance.SubscribeEvents(false);
+        playerInput.actions["Cancel"].performed += Cancel;
     }
-    public void StartInteraction(NPCData data)
+    private void OnDisable()
     {
-        UpdatePortrait(data.sprite);
-        gameObject.SetActive(true);
-
-        // Set Dialogue 
-        story = new Story(data.inkJSON.text);
-
-        // Add Buttons based on NPC functions
-        foreach (string s in data.options)
-        {
-            // Add Button
-            Button newButton = Instantiate(buttonPrefab, transform);
-            newButton.transform.SetParent(buttonContainer.transform);
-            newButton.interactable = false;
-
-            // Change Text
-            TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = s;
-
-            // Assign Button function
-            AssignButtonFunction(s, newButton);
-        }
-
-        // Start Dialogue
-        ContinueDialogue();
+        // Set Player Controls to Player
+        // Enable Player Controller
+        playerInput.SwitchCurrentActionMap("Player");
+        PlayerController.instance.EnablePlayerController(true);
+        PlayerController.instance.SubscribeEvents(true);
+        playerInput.actions["Cancel"].performed -= Cancel;
     }
 
-    public void EndInteraction()
+    private void Cancel(InputAction.CallbackContext context)
     {
-        Player.instance.interacting = false;
-        gameObject.SetActive(false);
-
-        // Destroy Buttons
-        foreach (Transform child in buttonContainer.transform)
-            Destroy(child.gameObject);
+        EndInteraction();
+    }
+    public void Interact(InputAction.CallbackContext context)
+    {
+        StartInteraction(Player.instance.selectedNPC);
     }
 
     private void UpdatePortrait(Sprite sprite)
@@ -66,7 +58,6 @@ public class DialogueBox : MonoBehaviour
         // Set Portrait from sprite
         portrait.sprite = sprite;
     }
-
     private void AssignButtonFunction(string s, Button button)
     {
         // Uses String to determine button function
@@ -99,7 +90,6 @@ public class DialogueBox : MonoBehaviour
                 break;
         }
     }
-    
     private void ContinueDialogue()
     {
         // Fills out line
@@ -121,7 +111,6 @@ public class DialogueBox : MonoBehaviour
             StartCoroutine(typeDialogue(currentLine));
         }
     }
-
     private IEnumerator typeDialogue(string s)
     {
         foreach (char c in s)
@@ -134,11 +123,48 @@ public class DialogueBox : MonoBehaviour
         if (!story.canContinue)
             EnableButtons();
     }
-
     private void EnableButtons()
     {
         Button[] buttons = buttonContainer.GetComponentsInChildren<Button>();
         foreach (Button button in buttons)
             button.interactable = true;
+    }
+    
+    public void StartInteraction(NPCData data)
+    {
+        gameObject.SetActive(true);
+
+        UpdatePortrait(data.sprite);
+
+        // Set Dialogue 
+        story = new Story(data.inkJSON.text);
+
+        // Add Buttons based on NPC functions
+        foreach (string s in data.options)
+        {
+            // Add Button
+            Button newButton = Instantiate(buttonPrefab, transform);
+            newButton.transform.SetParent(buttonContainer.transform);
+            newButton.interactable = false;
+
+            // Change Text
+            TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = s;
+
+            // Assign Button function
+            AssignButtonFunction(s, newButton);
+        }
+
+        // Start Dialogue
+        ContinueDialogue();
+    }
+    public void EndInteraction()
+    {
+        // Close Dialogue Box
+        gameObject.SetActive(false);
+
+        // Destroy Buttons
+        foreach (Transform child in buttonContainer.transform)
+            Destroy(child.gameObject);
     }
 }

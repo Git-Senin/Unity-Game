@@ -10,8 +10,6 @@ public class UIManager : MonoBehaviour
     public MenuInterface MenuInterface { get; private set; }
     public DialogueBox DialogueBox { get; private set; }
 
-    private InputAction cancel;
-
     private void Awake()
     {
         if(instance != null && instance != this)
@@ -21,17 +19,6 @@ public class UIManager : MonoBehaviour
         }
         instance = this;
         GetReferences();
-        cancel = PlayerController.instance.playerControls.UI.Cancel;
-    }
-    private void OnEnable()
-    {
-        cancel.Enable();
-        cancel.performed += CloseMenu;
-    }
-    private void OnDisable()
-    {
-        cancel.Disable();
-        cancel.performed -= CloseMenu;
     }
     private void GetReferences()
     {
@@ -39,8 +26,9 @@ public class UIManager : MonoBehaviour
         MenuInterface       = GetComponentInChildren<MenuInterface>(true);
         DialogueBox         = GetComponentInChildren<DialogueBox>(true);
     }
-    public void CloseMenu(InputAction.CallbackContext context)
+    public void PauseTime(bool pause)
     {
-        MenuInterface.Resume();
+        if(pause) Time.timeScale = 0.0f;
+        else Time.timeScale = 1.0f;
     }
 }

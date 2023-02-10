@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -10,12 +11,14 @@ public class Player : MonoBehaviour
     [SerializeField] private FloatVariable expData;
     [SerializeField] private FloatVariable damageData;
 
-    public bool dead = false;
-    public bool interacting = false;
-
+    private CircleCollider2D interactRange;
+    private InputAction interact;
     private float maxMana;
     private float manaRegenMultiplier = 1f;
     private float maxHealth;
+
+    public NPCData selectedNPC { get; private set; }
+    public bool dead = false;
 
     private void Awake()
     {
@@ -25,25 +28,45 @@ public class Player : MonoBehaviour
             return;
         }
         instance = this;
+
+        interactRange = GetComponent<CircleCollider2D>();
+
+        // For Testing -------------------
         maxHealthData.value = 100;
         maxManaData.value = 10;
     }
-
     private void Start()
     {
+        interact = PlayerController.instance.interract;
         // Calculate Max Health/Mana
         maxMana = maxManaData.value;
         maxHealth = maxHealthData.value;
     }
-
     private void Update()
     {
+        // Regen Mana
         if (maxManaData.value < maxMana)
         {
             RegenerateMana();
         }
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            selectedNPC = collision.GetComponent<NPC>().data;
+            collision.GetComponent<SpriteRenderer>().color = Color.blue;
+            interact.performed += UIManager.instance.DialogueBox.Interact;
+        }   
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("NPC"))
+        {
+            collision.GetComponent<SpriteRenderer>().color = Color.white;
+            interact.performed -= UIManager.instance.DialogueBox.Interact;
+        }
+    }
     public void gainHealth(float _health)
     {
         maxHealthData.value += _health;

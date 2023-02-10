@@ -7,8 +7,28 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] private FloatVariable mana;
     [SerializeField] private GameObject bulletPrefab;
-    public Transform weaponObject;
+    [SerializeField] private Transform weaponObject;
+
     private InputAction fire;
+
+    private void Start()
+    {
+        fire = PlayerController.instance.fire;
+        fire.performed += Fire;
+    }
+    private void OnEnable()
+    {
+        if (fire != null) { fire.performed += Fire; }
+    }
+    private void OnDisable()
+    {
+        fire.performed -= Fire;
+    }
+
+    private void Fire(InputAction.CallbackContext context)
+    {
+        Shoot();
+    }
 
     private void Shoot() 
     {
@@ -23,7 +43,6 @@ public class Weapon : MonoBehaviour
     {
         transform.Rotate(180, 0, 0);
     }
-
 
 }
 

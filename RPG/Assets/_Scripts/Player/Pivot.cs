@@ -9,14 +9,19 @@ public class Pivot : MonoBehaviour
     public Camera cam;
     public Weapon weapon;
     public PlayerMovement player;
+
     private InputAction look;
     private bool faceRight = true;
     private float mouseAngle;
 
-    private void OnEnable()
+    private void Start()
     {
         look = PlayerController.instance.look;
         look.performed += FollowMousePosition;
+    }
+    private void OnEnable()
+    {
+        if (look != null) look.performed += FollowMousePosition;
     }
     private void OnDisable()
     {
@@ -25,19 +30,26 @@ public class Pivot : MonoBehaviour
 
     private void FollowMousePosition(InputAction.CallbackContext context)
     {
-        Vector2 mouseScreenPosition = context.ReadValue<Vector2>();     // Get Mouse position on screen
-        Vector3 objectPos = cam.WorldToScreenPoint(transform.position); // Get Pivot position on screen
+        // Get Mouse position on screen
+        // Get Pivot position on screen
+        Vector2 mouseScreenPosition = context.ReadValue<Vector2>();
+        Vector3 objectPos = cam.WorldToScreenPoint(transform.position);
 
-        mouseScreenPosition.x = mouseScreenPosition.x - objectPos.x;  //  Slope of X
-        mouseScreenPosition.y = mouseScreenPosition.y - objectPos.y;  //  Slope of Y
+        //  Slope of X
+        //  Slope of Y
+        mouseScreenPosition.x = mouseScreenPosition.x - objectPos.x;
+        mouseScreenPosition.y = mouseScreenPosition.y - objectPos.y;
 
-        mouseAngle = Mathf.Atan2(mouseScreenPosition.y, mouseScreenPosition.x) * Mathf.Rad2Deg;    // Angle Using Adjacent & Opposite for angle 
+        // Angle Using Adjacent & Opposite for angle 
+        mouseAngle = Mathf.Atan2(mouseScreenPosition.y, mouseScreenPosition.x) * Mathf.Rad2Deg;
 
         //Debug.Log(mouseAngle);
 
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));   // Rotate Pivot
+        // Rotate Pivot
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
         
-        if (mouseAngle > 0f && mouseAngle < 90f || mouseAngle > -90 && mouseAngle < 0f)    // -90 -> 90
+        // -90 -> 90
+        if (mouseAngle > 0f && mouseAngle < 90f || mouseAngle > -90 && mouseAngle < 0f)    
         {
             if (!faceRight)         //If Left
             {

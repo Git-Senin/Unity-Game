@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance { get; private set; }
-    public PlayerControls playerControls { get; private set; }
+    private PlayerControls playerControls;
+    public PlayerInput playerInput { get; private set; }
     public InputAction move { get; private set; }
     public InputAction look { get; private set; }
     public InputAction fire { get; private set; }
@@ -16,16 +17,20 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton
         if (instance != null && instance != this)
         {
             Destroy(this);
             return;
         }
         instance = this;
+
         playerControls = new PlayerControls();  
+        playerInput = GetComponent<PlayerInput>();
     }
     private void OnEnable()
     {
+        // Set Actions
         move        = playerControls.Player.Move;
         look        = playerControls.Player.Look;
         fire        = playerControls.Player.Fire;
@@ -33,14 +38,17 @@ public class PlayerController : MonoBehaviour
         menu        = playerControls.Player.Menu;
         inventory   = playerControls.Player.Inventory;
 
+        // Enable Controller and Events
         EnablePlayerController(true);
         SubscribeEvents(true);
     }
     private void OnDisable()
     {
+        // Disable Controller and Events
         EnablePlayerController(false);
         SubscribeEvents(false);
     }
+
     private void OpenInventory(InputAction.CallbackContext context)
     {
         // Open Inventory Window
@@ -49,8 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         EnablePlayerController(false);
         SubscribeEvents(false);
-        UIManager.instance.gameObject.SetActive(true);
-        UIManager.instance.MenuInterface.Pause();
+        UIManager.instance.MenuInterface.gameObject.SetActive(true);
     }
     public void SubscribeEvents(bool subscribe)
     {
