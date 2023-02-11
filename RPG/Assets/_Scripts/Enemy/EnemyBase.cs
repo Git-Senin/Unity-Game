@@ -39,7 +39,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(Player.instance.TakeDamageOverTime(damage, 100000));
+            StartCoroutine(Player.instance.TakeDamageOverTime(damage, 100000, 1, true));
         }
     }
 

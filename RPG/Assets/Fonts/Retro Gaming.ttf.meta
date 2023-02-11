@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5cdfc8ee18d56354091ba774ac201db0
+guid: 597fc9a191bb6ce428e1a99d42946609
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - 8BIT WONDER
+  - Retro Gaming
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

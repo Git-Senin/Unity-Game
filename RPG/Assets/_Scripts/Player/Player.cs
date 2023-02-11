@@ -6,20 +6,66 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public static Player instance { get; private set; }
-    [SerializeField] private FloatVariable maxHealthData;
-    [SerializeField] private FloatVariable maxManaData;
-    [SerializeField] private FloatVariable expData;
-    [SerializeField] private FloatVariable damageData;
+
+    [SerializeField] private FloatVariable _health;
+    [SerializeField] private FloatVariable _maxHealth;
+    [SerializeField] private FloatVariable _mana;
+    [SerializeField] private FloatVariable _maxMana;
+    [SerializeField] private FloatVariable _exp;
+    [SerializeField] private FloatVariable _damage;
+
+    #region Stats 
+    /*
+        health
+        maxHealth
+        mana
+        maxMana
+        exp
+        damage
+    */
+    public float health 
+    { 
+        get { return _health.value; } 
+        private set { _health.value = Mathf.Clamp(value, 0, maxHealth); } 
+    }
+    public float maxHealth 
+    { 
+        get { return _maxHealth.value; } 
+        private set { _maxHealth.value = value; } 
+    }
+
+    public float mana 
+    {
+        get { return _mana.value; }
+        private set { _mana.value = Mathf.Clamp(value, 0, maxMana); }
+    }
+    public float maxMana
+    {
+        get { return _maxMana.value; }
+        private set { _maxMana.value = value; }
+    }
+
+    public float exp 
+    {
+        get { return _exp.value; }
+        private set { _exp.value = Mathf.Clamp(value, 0, 999999999); }
+    }
+
+    public float damage
+    {
+        get { return _damage.value; }
+        private set { _damage.value = Mathf.Clamp(value, 0, 999999999); }
+    }
+    #endregion 
 
     private CircleCollider2D interactRange;
     private InputAction interact;
-    private float maxMana;
     private float manaRegenMultiplier = 1f;
-    private float maxHealth;
 
     public NPCData selectedNPC { get; private set; }
     public bool dead = false;
 
+    #region Unity Methods
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -30,32 +76,25 @@ public class Player : MonoBehaviour
         instance = this;
 
         interactRange = GetComponent<CircleCollider2D>();
-
-        // For Testing -------------------
-        maxHealthData.value = 100;
-        maxManaData.value = 10;
     }
     private void Start()
     {
+        //SetPlayerStats();
         interact = PlayerController.instance.interract;
-        // Calculate Max Health/Mana
-        maxMana = maxManaData.value;
-        maxHealth = maxHealthData.value;
     }
     private void Update()
     {
-        // Regen Mana
-        if (maxManaData.value < maxMana)
-        {
-            RegenerateMana();
-        }
+        RegenerateMana();
+
+        // Update Float Var Every Frame
+        // SetVariableStats();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("NPC"))
         {
             selectedNPC = collision.GetComponent<NPC>().data;
-            collision.GetComponent<SpriteRenderer>().color = Color.blue;
+            collision.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.blue, Color.red, 0);
             interact.performed += UIManager.instance.DialogueBox.Interact;
         }   
     }
@@ -67,40 +106,79 @@ public class Player : MonoBehaviour
             interact.performed -= UIManager.instance.DialogueBox.Interact;
         }
     }
-    public void gainHealth(float _health)
+    #endregion 
+
+    private void SetPlayerStats()
     {
-        maxHealthData.value += _health;
+        // Sets from Float Variables
+        health = _health.value;
+        maxHealth = _maxHealth.value;
+        mana = _mana.value;
+        maxMana = _maxMana.value;
+        exp = _exp.value;
+        damage = _damage.value;
+    }
+    private void SetVariableStats()
+    {
+        // Sets from Player Stats
+        _health.value = health;
+        _maxHealth.value = maxHealth;
+        _mana.value = mana;
+        _maxMana.value = maxMana;
+        _exp.value = exp;
+        _damage.value = damage;
+    }
+    private bool CheckDeath()
+    {
+        if (maxHealth > 0)
+            return false;
+        else
+            return true;
+    }
+    private void Die() 
+    {
+        Debug.Log("You died.");
     }
 
-    public void TakeDamage(float _damage)
+    public void gainHealth(float hp)
     {
-
+        maxHealth += hp;
+    }
+    public void TakeDamage(float dmg)
+    {
         Debug.Log(_damage + " damage taken. ");
-        maxHealthData.value = Mathf.Clamp(maxHealthData.value - _damage, 0, maxHealth);
-        
-        if (maxHealthData.value > 0)
-        {
-            // Hurt Visual
-        }
-        else
-        {
-            // Destroy(gameObject);
-        }
+        maxHealth -= dmg;
+        if(CheckDeath())
+            Die();
     }
     
-    public IEnumerator TakeDamageOverTime(float _damage, float _duration)
+    public IEnumerator TakeDamageOverTime(float dmg, float duration, float tickSpeed, bool canDie)
     {
-        while (_duration != 0)
+        // Ticks
+        while (duration != 0)
         {
-            maxHealthData.value = Mathf.Clamp(maxHealthData.value - _damage, 0, maxHealth);
-            yield return new WaitForSeconds(1);
-            _duration--;
+            if (health - dmg < 1)
+            {
+                // Clamp to 1 on no die
+                if (!canDie)
+                    health = 1;
+                else
+                {
+                    health -= dmg;
+                    Die();
+                }
+            }
+            yield return new WaitForSeconds(tickSpeed);
+            duration--;
         }
         yield return null;
     }
 
-    void RegenerateMana()
+    public void RegenerateMana()
     {
-        maxManaData.value += (Time.deltaTime * manaRegenMultiplier);
+        if (mana < maxMana)
+        {
+            mana += (Time.deltaTime * manaRegenMultiplier);
+        }
     }
 }
