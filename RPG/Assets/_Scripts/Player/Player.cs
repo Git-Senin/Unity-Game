@@ -85,9 +85,6 @@ public class Player : MonoBehaviour
     private void Update()
     {
         RegenerateMana();
-
-        // Update Float Var Every Frame
-        // SetVariableStats();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -108,26 +105,6 @@ public class Player : MonoBehaviour
     }
     #endregion 
 
-    private void SetPlayerStats()
-    {
-        // Sets from Float Variables
-        health = _health.value;
-        maxHealth = _maxHealth.value;
-        mana = _mana.value;
-        maxMana = _maxMana.value;
-        exp = _exp.value;
-        damage = _damage.value;
-    }
-    private void SetVariableStats()
-    {
-        // Sets from Player Stats
-        _health.value = health;
-        _maxHealth.value = maxHealth;
-        _mana.value = mana;
-        _maxMana.value = maxMana;
-        _exp.value = exp;
-        _damage.value = damage;
-    }
     private bool CheckDeath()
     {
         if (maxHealth > 0)
@@ -151,7 +128,6 @@ public class Player : MonoBehaviour
         if(CheckDeath())
             Die();
     }
-    
     public IEnumerator TakeDamageOverTime(float dmg, float duration, float tickSpeed, bool canDie)
     {
         // Ticks
@@ -173,7 +149,6 @@ public class Player : MonoBehaviour
         }
         yield return null;
     }
-
     public void RegenerateMana()
     {
         if (mana < maxMana)
