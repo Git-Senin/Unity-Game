@@ -5,6 +5,7 @@ using Ink.Runtime;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class DialogueBox : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class DialogueBox : MonoBehaviour
     }
     public void Interact(InputAction.CallbackContext context)
     {
-        StartInteraction(Player.instance.selectedNPC);
+        StartInteraction(Player.instance.selectedNPC.data);
     }
 
     private void UpdatePortrait(Sprite sprite)

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using enums;
+using System.Linq;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -62,7 +65,8 @@ public class Player : MonoBehaviour
     private InputAction interact;
     private float manaRegenMultiplier = 1f;
 
-    public NPCData selectedNPC { get; private set; }
+    public NPC selectedNPC { get; private set; }
+    public List<NPC> selectedNPCs { get; private set; }
     public bool dead = false;
 
     #region Unity Methods
@@ -76,6 +80,7 @@ public class Player : MonoBehaviour
         instance = this;
 
         interactRange = GetComponent<CircleCollider2D>();
+        selectedNPCs = new List<NPC>();
     }
     private void Start()
     {
@@ -88,19 +93,38 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("NPC"))
-        {
-            selectedNPC = collision.GetComponent<NPC>().data;
-            collision.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.blue, Color.red, 0);
-            interact.performed += UIManager.instance.DialogueBox.Interact;
-        }   
+        HandleTrigger2D(collision, Handle.Enter);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        HandleTrigger2D(collision, Handle.Exit);
+    }
+
+    private void HandleTrigger2D(Collider2D collision, Handle option)
+    {
         if (collision.gameObject.CompareTag("NPC"))
         {
-            collision.GetComponent<SpriteRenderer>().color = Color.white;
-            interact.performed -= UIManager.instance.DialogueBox.Interact;
+            NPC npc = collision.GetComponent<NPC>();
+            switch (option)
+            {
+                case Handle.Enter:
+                    selectedNPC = npc;
+                    foreach (NPC _npc in selectedNPCs)
+                        _npc.EnableOutline(false);
+                    selectedNPCs.Add(npc);
+                    npc.EnableOutline(true);
+                    interact.performed += UIManager.instance.DialogueBox.Interact;
+                    break;
+
+                case Handle.Exit:
+                    npc.EnableOutline(false);
+                    interact.performed -= UIManager.instance.DialogueBox.Interact;
+                    break;
+
+                default:
+                    Debug.Log(collision.name + " cannot handle Trigger option.");
+                    break;
+            }
         }
     }
     #endregion 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using Codice.CM.Client.Differences.Graphic;
 
 [CustomEditor(typeof(Bar))]
 public class BarEditor : Editor
@@ -10,9 +11,14 @@ public class BarEditor : Editor
     private SerializedProperty currentVar;
     private SerializedProperty maximumVar;
     private SerializedProperty rectTransform;
+
     private SerializedProperty outline;
     private SerializedProperty gauge;
     private SerializedProperty fill;
+
+    private SerializedProperty gaugeColor;
+    private SerializedProperty fillColor;
+
     private SerializedProperty minExpansion;
     private SerializedProperty maxExpansion;
     private SerializedProperty barHolder;
@@ -31,9 +37,14 @@ public class BarEditor : Editor
         currentVar = serializedObject.FindProperty("currentVar");
         maximumVar = serializedObject.FindProperty("maximumVar");
         rectTransform = serializedObject.FindProperty("rectTransform");
+
         outline = serializedObject.FindProperty("outline");
         gauge = serializedObject.FindProperty("gauge");
         fill = serializedObject.FindProperty("fill");
+
+        gaugeColor = serializedObject.FindProperty("gaugeColor");
+        fillColor = serializedObject.FindProperty("fillColor");
+
         minExpansion = serializedObject.FindProperty("minExpansion");
         maxExpansion = serializedObject.FindProperty("maxExpansion");
         barHolder = serializedObject.FindProperty("barHolder");
@@ -70,6 +81,7 @@ public class BarEditor : Editor
         Bar _bar = (Bar)target;
         Image _outline = outline.objectReferenceValue as Image;
         Image _gauge = gauge.objectReferenceValue as Image;
+
         // Name
         barHolder.stringValue = EditorGUILayout.TextField("Name", barHolder.stringValue);
 
@@ -106,11 +118,13 @@ public class BarEditor : Editor
             EditorGUI.indentLevel--;
         }
 
-        // Bar Colors
-        gauge.colorValue = EditorGUILayout.ColorField("Gauge Color", gauge.colorValue);
-        fill.colorValue = EditorGUILayout.ColorField("Fill Color", fill.colorValue);
-        _bar.SetGaugeColor(gauge.colorValue);
-        _bar.SetFillColor(fill.colorValue);
+        // Gauge Color
+        gaugeColor.colorValue = EditorGUILayout.ColorField("Gauge", gaugeColor.colorValue);
+        _bar.SetGaugeColor(new Color(gaugeColor.colorValue.r, gaugeColor.colorValue.g, gaugeColor.colorValue.b));
+
+        // Fill Color
+        fillColor.colorValue = EditorGUILayout.ColorField("Fill", fillColor.colorValue);
+        _bar.SetFillColor(new Color(fillColor.colorValue.r, fillColor.colorValue.g, fillColor.colorValue.b));
 
         // Pixels Per Multiplier Slider
         float multiplier = EditorGUILayout.Slider("Border", _outline.pixelsPerUnitMultiplier, borderSliderMin, borderSliderMax);

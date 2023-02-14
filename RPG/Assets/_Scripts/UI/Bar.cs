@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class Bar : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Bar : MonoBehaviour
     [SerializeField] private Image outline;
     [SerializeField] private Image gauge;
     [SerializeField] private Image fill;
+    [SerializeField] private Color gaugeColor;
+    [SerializeField] private Color fillColor;
     [SerializeField] private float minExpansion = 30f;
     [SerializeField] private float maxExpansion = 500f;
     [SerializeField] private string barHolder = "Bar";
@@ -30,8 +33,9 @@ public class Bar : MonoBehaviour
     }
     private void Start()
     {
-        // Set Name
         SetName();
+        SetGaugeColor();
+        SetFillColor();
     }
     private void Update()
     {
@@ -94,12 +98,22 @@ public class Bar : MonoBehaviour
     {
         SetValues(currentVar.value, maximumVar.value);
     }
+    public void SetFillColor()
+    {
+        fill.color = fillColor;
+    }
     public void SetFillColor(Color color)
     {
-        fill.color = color;
+        fillColor = color;
+        SetFillColor();
+    }
+    private void SetGaugeColor()
+    {
+        gauge.color = gaugeColor;
     }
     public void SetGaugeColor(Color color)
     {
-        gauge.color = color;
+        gaugeColor = color;
+        SetGaugeColor();
     }
 }

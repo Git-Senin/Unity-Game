@@ -82,8 +82,10 @@ public class EnemyBase : MonoBehaviour
     {
         if(Vector2.Distance(transform.position, target.position) < distance)
         {
-            if (target.transform.position.x < gameObject.transform.position.x && faceRight) Flip();         //Flip
-            else if (target.transform.position.x > gameObject.transform.position.x && !faceRight) Flip();
+            if (target.transform.position.x < gameObject.transform.position.x && faceRight) 
+                Flip();
+            else if (target.transform.position.x > gameObject.transform.position.x && !faceRight) 
+                Flip();
 
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }

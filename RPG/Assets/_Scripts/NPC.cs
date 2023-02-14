@@ -12,6 +12,7 @@ public class NPC : MonoBehaviour
 
     private string Name;
     private Sprite sprite;
+    private SpriteRenderer spriteRenderer;
     private Indicator indicator;
 
     private void Awake()
@@ -20,10 +21,11 @@ public class NPC : MonoBehaviour
         gameObject.name = Name;
 
         indicator = transform.Find("Indicator").GetComponent<Indicator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void Start()
     {
-        gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
+        spriteRenderer.sprite = sprite;
 
         indicator.gameObject.SetActive(true);
         indicator.SetExclamation();
@@ -34,6 +36,13 @@ public class NPC : MonoBehaviour
     {
         Name = data.Name;
         sprite = data.sprite;
+    }
+    public void EnableOutline(bool outline)
+    {
+        if (outline)
+            spriteRenderer.material.SetFloat("_Outline", 1);
+        else
+            spriteRenderer.material.SetFloat("_Outline", 0);
     }
 }
  

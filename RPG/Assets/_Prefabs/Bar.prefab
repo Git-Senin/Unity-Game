@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5660378, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5660378, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.010215759, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -508,6 +508,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Bar
 
+    Template
+
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
@@ -661,9 +663,11 @@ MonoBehaviour:
   outline: {fileID: 5392394063548808709}
   gauge: {fileID: 5392394063211330665}
   fill: {fileID: 5392394063505508561}
+  gaugeColor: {r: 1, g: 1, b: 1, a: 1}
+  fillColor: {r: 1, g: 0, b: 0.010215759, a: 1}
   minExpansion: 30
   maxExpansion: 500
-  barHolder: Bar
+  barHolder: 
   allowExpand: 1
   valueFoldout: 1
   useConst: 0
