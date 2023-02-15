@@ -103,7 +103,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -120,9 +120,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0017833933, y: 0.014754951}
+  m_Offset: {x: 0.39, y: 0.03}
   serializedVersion: 2
-  m_Radius: 0.09014277
+  m_Radius: 0.19
 --- !u!114 &9179242763605394853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 2
-  speed: 20
+  speed: 40
   damage: 40
   rb: {fileID: 6399759457518231293}
   explosion: {fileID: 6664805026905417510, guid: 8da5e29a42522c446831122830714ccf, type: 3}

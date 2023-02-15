@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
+    public Alert Alert { get; private set; }
     public PlayerInterface PlayerInterface { get; private set; }
     public MenuInterface MenuInterface { get; private set; }
     public DialogueBox DialogueBox { get; private set; }
@@ -22,6 +23,7 @@ public class UIManager : MonoBehaviour
     }
     private void GetReferences()
     {
+        Alert               = GetComponentInChildren<Alert>(true);
         PlayerInterface     = GetComponentInChildren<PlayerInterface>(true);
         MenuInterface       = GetComponentInChildren<MenuInterface>(true);
         DialogueBox         = GetComponentInChildren<DialogueBox>(true);

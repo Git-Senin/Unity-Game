@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public InputAction interract { get; private set; }
     public InputAction menu { get; private set; }
     public InputAction inventory { get; private set; }
+    public InputAction movementAbility { get; private set; }
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
         interract   = playerControls.Player.Interract;
         menu        = playerControls.Player.Menu;
         inventory   = playerControls.Player.Inventory;
+        movementAbility = playerControls.Player.MovementAbility;
 
         // Enable Controller and Events
         EnablePlayerController(true);
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
             interract.Enable();
             menu.Enable();
             inventory.Enable();
+            movementAbility.Enable();
         }
         else
         {
@@ -89,6 +92,7 @@ public class PlayerController : MonoBehaviour
             interract.Disable();
             menu.Disable();
             inventory.Disable();
+            movementAbility.Disable();
         }
     }
     

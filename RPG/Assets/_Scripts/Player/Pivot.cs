@@ -49,7 +49,7 @@ public class Pivot : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, mouseAngle));
         
         // -90 -> 90
-        if (mouseAngle > 0f && mouseAngle < 90f || mouseAngle > -90 && mouseAngle < 0f)    
+        if (mouseAngle >= 0f && mouseAngle < 90f || mouseAngle > -90 && mouseAngle < 0f)    
         {
             if (!faceRight)         //If Left
             {
