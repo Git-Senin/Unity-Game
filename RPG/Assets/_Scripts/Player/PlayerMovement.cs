@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private bool faceRight = true;
     public float movementAbilityCooldown { get; private set; }
     public float moveSpeed = 1f;
+    public float dashForce = 50f;
 
     // For Testing Remove Later
     [SerializeField] GameObject abilitySlotPrefab;
@@ -70,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Dash()
     {
         // Force
-        Vector2 force = moveDirection.normalized * 25f;
+        Vector2 force = moveDirection.normalized * dashForce;
 
         // Not moving
         if (force.Equals(Vector2.zero)) 

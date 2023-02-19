@@ -182,8 +182,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Options
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
-  m_sharedMaterial: {fileID: -5717298869236041649, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
+  m_sharedMaterial: {fileID: 4618519254859363624, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -316,8 +316,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PROJECT V
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
-  m_sharedMaterial: {fileID: -5717298869236041649, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
+  m_sharedMaterial: {fileID: 4618519254859363624, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -547,7 +547,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1500363745}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -944,8 +944,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
-  m_sharedMaterial: {fileID: -5717298869236041649, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
+  m_sharedMaterial: {fileID: 4618519254859363624, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1106,6 +1106,7 @@ GameObject:
   - component: {fileID: 1147181119}
   - component: {fileID: 1147181118}
   - component: {fileID: 1147181117}
+  - component: {fileID: 1147181120}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1178,6 +1179,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1147181120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147181116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1362818229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,13 +1316,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ee6c5e4b40577af4b91623b4559b0be9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.301
+  m_Volume: 0.062
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 120
+  Priority: 153
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1561,7 +1595,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1500363743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b22ca9e3ff1a944ead03a4347ccb2dc, type: 3}
+  m_Script: {fileID: 11500000, guid: ab0436d7af52220488fbb52bb4ee1433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1593609444
@@ -1873,7 +1907,7 @@ GameObject:
   - component: {fileID: 1780321964}
   - component: {fileID: 1780321963}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2223,7 +2257,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1500363745}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: PlayGame
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2359,8 +2393,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PLAY
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
-  m_sharedMaterial: {fileID: -5717298869236041649, guid: a98ecb4ca7bc4404fbbb001bbcc192ae, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
+  m_sharedMaterial: {fileID: 4618519254859363624, guid: 2968a1c3b9f926a4c805a12b9b706444, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

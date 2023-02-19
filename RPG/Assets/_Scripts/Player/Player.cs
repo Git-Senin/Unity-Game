@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using enums;
-using System.Linq;
 using TMPro;
+using System.Linq;
+using enums;
 
 public class Player : MonoBehaviour
 {
@@ -61,12 +61,12 @@ public class Player : MonoBehaviour
     }
     #endregion 
 
-    private CircleCollider2D interactRange;
     private InputAction interact;
     private float manaRegenMultiplier = 1f;
 
     public NPC selectedNPC { get; private set; }
-    public List<NPC> selectedNPCs { get; private set; }
+    private List<NPC> selectedNPCs;
+    
     public bool dead = false;
 
     #region Unity Methods
@@ -78,54 +78,15 @@ public class Player : MonoBehaviour
             return;
         }
         instance = this;
-
-        interactRange = GetComponent<CircleCollider2D>();
         selectedNPCs = new List<NPC>();
     }
     private void Start()
     {
-        //SetPlayerStats();
         interact = PlayerController.instance.interract;
     }
     private void Update()
     {
         RegenerateMana();
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        HandleTrigger2D(collision, Handle.Enter);
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        HandleTrigger2D(collision, Handle.Exit);
-    }
-
-    private void HandleTrigger2D(Collider2D collision, Handle option)
-    {
-        if (collision.gameObject.CompareTag("NPC"))
-        {
-            NPC npc = collision.GetComponent<NPC>();
-            switch (option)
-            {
-                case Handle.Enter:
-                    selectedNPC = npc;
-                    foreach (NPC _npc in selectedNPCs)
-                        _npc.EnableOutline(false);
-                    selectedNPCs.Add(npc);
-                    npc.EnableOutline(true);
-                    interact.performed += UIManager.instance.DialogueBox.Interact;
-                    break;
-
-                case Handle.Exit:
-                    npc.EnableOutline(false);
-                    interact.performed -= UIManager.instance.DialogueBox.Interact;
-                    break;
-
-                default:
-                    Debug.Log(collision.name + " cannot handle Trigger option.");
-                    break;
-            }
-        }
     }
     #endregion 
 
@@ -180,4 +141,42 @@ public class Player : MonoBehaviour
             mana += (Time.deltaTime * manaRegenMultiplier);
         }
     }
+    public void Select(NPC npc, bool selected = true)
+    {
+        if (selected)
+        {
+            foreach (NPC _selectedNPC in selectedNPCs)
+                _selectedNPC.EnableOutline(false);
+
+            // Select
+            selectedNPC = npc;
+            selectedNPCs.Add(npc);
+            npc.EnableOutline(true);
+
+            interact.performed += UIManager.instance.DialogueBox.Interact;
+        }
+        else
+        {
+            // Deselect
+            if (selectedNPCs.Contains(npc))
+            {
+                selectedNPCs.Remove(npc);
+                npc.EnableOutline(false);
+            }
+
+            // Not Empty Set Closest NPC
+            if (selectedNPCs.Count != 0)
+            {
+                selectedNPC = selectedNPCs.Last();
+                selectedNPC.EnableOutline(false);
+            }
+
+            // Empty
+            else
+            {
+                interact.performed -= UIManager.instance.DialogueBox.Interact;
+            }
+        }
+    }
+
 }

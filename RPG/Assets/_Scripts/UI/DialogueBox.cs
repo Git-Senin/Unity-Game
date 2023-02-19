@@ -43,6 +43,7 @@ public class DialogueBox : MonoBehaviour
         PlayerController.instance.EnablePlayerController(true);
         PlayerController.instance.SubscribeEvents(true);
         playerInput.actions["Cancel"].performed -= Cancel;
+
     }
 
     private void Cancel(InputAction.CallbackContext context)
@@ -163,6 +164,9 @@ public class DialogueBox : MonoBehaviour
     {
         // Close Dialogue Box
         gameObject.SetActive(false);
+
+        // Stop Dialogue
+        dialoguePlaying = false;
 
         // Destroy Buttons
         foreach (Transform child in buttonContainer.transform)
