@@ -11,6 +11,7 @@ public static class Loader
         Home,
         Base,
         Level,
+        Dead
     }
     public static void LoadScene(Scene scene)
     {

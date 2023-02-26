@@ -75,7 +75,8 @@ public class Bar : MonoBehaviour
     public void FitExpansion(float width)
     {
         // Set Expansion
-        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Mathf.Clamp(width, minExpansion, maxExpansion));
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,
+            Mathf.Clamp(width, minExpansion, maxExpansion));
     }
     public void FitExpansion()
     {

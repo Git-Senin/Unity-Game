@@ -35,7 +35,7 @@ public class EnemyBase : MonoBehaviour
         Move();
     }
 
-    public virtual void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
@@ -43,9 +43,12 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public virtual void OnCollisionExit2D()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        StopAllCoroutines();
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            StopAllCoroutines();
+        }
     }
 
     protected virtual void GetData()
@@ -80,15 +83,12 @@ public class EnemyBase : MonoBehaviour
     }
     protected virtual void Move()
     {
-        if(Vector2.Distance(transform.position, target.position) < distance)
-        {
-            if (target.transform.position.x < gameObject.transform.position.x && faceRight) 
-                Flip();
-            else if (target.transform.position.x > gameObject.transform.position.x && !faceRight) 
-                Flip();
+        if (target.transform.position.x < gameObject.transform.position.x && faceRight) 
+            Flip();
+        else if (target.transform.position.x > gameObject.transform.position.x && !faceRight) 
+            Flip();
 
-            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        }
+        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
     protected virtual void Flip()
     {

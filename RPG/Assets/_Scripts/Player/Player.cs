@@ -92,19 +92,26 @@ public class Player : MonoBehaviour
 
     private bool CheckDeath()
     {
-        if (maxHealth > 0)
+        if (health > 0)
             return false;
         else
             return true;
     }
     private void Die() 
     {
-        Debug.Log("You died.");
+        PlayerController.instance.EnablePlayerController(false);
+        PlayerController.instance.SubscribeEvents(false);
+        StartCoroutine(WaitSeconds(2));
+        Loader.LoadScene(Loader.Scene.Dead);
+    }   
+    private IEnumerator WaitSeconds(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 
     public void gainHealth(float hp)
     {
-        maxHealth += hp;
+        health += hp;
     }
     public void TakeDamage(float dmg)
     {
@@ -118,19 +125,21 @@ public class Player : MonoBehaviour
         // Ticks
         while (duration != 0)
         {
-            if (health - dmg < 1)
+            // Clamp to 1 on no die
+            if (!canDie)
+                health = 1;
+            else
             {
-                // Clamp to 1 on no die
-                if (!canDie)
-                    health = 1;
-                else
-                {
-                    health -= dmg;
-                    Die();
-                }
+                health -= dmg;
             }
             yield return new WaitForSeconds(tickSpeed);
             duration--;
+            if(CheckDeath())
+            {
+                Debug.Log("Die");
+                Die();
+
+            }
         }
         yield return null;
     }
@@ -178,5 +187,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
+    
 }
+ 
