@@ -1,2 +1,4 @@
 # Unity-Game
-repo for unity game
+
+First Unity Game
+Mostly for learning Unity
